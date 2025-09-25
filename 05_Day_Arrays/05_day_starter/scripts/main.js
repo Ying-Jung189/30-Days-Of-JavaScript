@@ -104,13 +104,13 @@ function getMiddle2(arr) {
 
   if (len % 2 === 0) {
     // 偶數 → 取兩個中間值
-    return ([middleIndex - 1],[middleIndex]);
+    return [[middleIndex - 1],[middleIndex]];
   } else {
     // 奇數 → 取唯一中間值
-    return [middleIndex];
+    return [[middleIndex]];
   }
 }
-let arrMiddleIndex = getMiddle2(countries)[0];
+let arrMiddleIndex = getMiddle2(countries).flat()[0];
 console.log(countries[arrMiddleIndex]);
 const firstHalf = countries.splice(0, arrMiddleIndex);
 console.log(firstHalf);
