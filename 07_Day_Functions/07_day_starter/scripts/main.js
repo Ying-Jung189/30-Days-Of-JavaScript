@@ -92,7 +92,7 @@ printArray(arr2);
 //4
 function showDateTime() {
   let now = new Date();
-  const formatted = new Intl.DateTimeFormat('en-US', {
+  const formatted = new Intl.DateTimeFormat("en-US", {
     year: "numeric",
     month: "2-digit",
     day: "2-digit",
@@ -101,7 +101,8 @@ function showDateTime() {
     hour12: false,
   })
     .format(now)
-    .replace(",", "").replace("-", "/");
+    .replace(",", "")
+    .replace("-", "/");
 
   return formatted;
 }
@@ -114,12 +115,110 @@ function swapValues(a, b) {
 console.log(swapValues(3, 4));
 
 //6
-function reverseArray(arr){
-    const reverseArr = []
-    for(let i = arr.length - 1; i >= 0; i--){
-        reverseArr.push(arr[i]);
-    }
-    return reverseArr;
+function reverseArray(arr) {
+  const reverseArr = [];
+  for (let i = arr.length - 1; i >= 0; i--) {
+    reverseArr.push(arr[i]);
+  }
+  return reverseArr;
 }
 console.log(reverseArray([1, 2, 3, 4, 5]));
-console.log(reverseArray(['A', 'B', 'C']));
+console.log(reverseArray(["A", "B", "C"]));
+
+//8
+function addItem(arr) {
+  let sum = 0;
+  for (let i = 0; i <= arr.length - 1; i++) {
+    sum += arr[i];
+  }
+  return sum;
+}
+const arrayTest = [1, 1, 3, 6, 5, 45];
+console.log(addItem(arrayTest));
+//9
+function removeItem(arr) {
+  while (arr.length > 0) {
+    arr.pop();
+  }
+  return arr;
+}
+
+console.log(removeItem([22, 33, 44, 55, 66])); // []
+//11
+function sumOfEven(arr) {
+  let sum = 0;
+  for (let i = 1; i <= arr.length - 1; i += 2) {
+    sum += arr[i];
+  }
+  return sum;
+}
+console.log(sumOfEven([1, 2, 1, 5, 1, 5, 1]));
+//13
+function evensAndOdds(num, includeZero = true) {
+  if (!Number.isInteger(num) || num <= 0) {
+    return "Error: Input must be a positive integer";
+  }
+
+  let oddNum, evenNum;
+
+  if (includeZero) {
+    oddNum = Math.ceil(num / 2);
+    evenNum = Math.floor(num / 2) + 1;
+  } else {
+    //math.ceil向上取整
+    oddNum = Math.ceil(num / 2);
+    //math.floor向下取整
+    evenNum = Math.floor(num / 2);
+  }
+
+  return `The number of odds are ${oddNum}, the number of evens are ${evenNum}`;
+}
+//15
+const randomUserId = () => {
+  let randomNum = Math.floor(Math.random() * 1000);
+  const lowerChars = [];
+
+  // A ~ Z 的編碼是 65 ~ 90
+  for (let i = 65; i < 91; i++) {
+    let char = String.fromCharCode(i);
+    lowerChars.push(char.toLowerCase());
+  }
+  let randomChar = lowerChars[Math.floor(Math.random() * 26)];
+  console.log(randomChar);
+  let id = randomChar.concat(randomNum);
+
+  return id.toString().padStart(6, "0");
+};
+console.log(randomUserId());
+
+function randomUserIp() {
+  const segments = [];
+  for (let i = 0; i < 4; i++) {
+    segments.push(Math.floor(Math.random() * 256)); // 0 ~ 255
+  }
+  return segments.join(".");
+}
+
+console.log(randomUserIp());
+
+//17
+function randomHexNumberGenerator() {
+  const numArr = [];
+  const upperChars = [];
+
+  for (let i = 0; i <= 9; i++) {
+    numArr.push(i);
+  }
+  for (let i = 65; i < 91; i++) {
+    let char = String.fromCharCode(i);
+    upperChars.push(char);
+  }
+  const randomtxt = upperChars.concat(numArr);
+  const hex = [];
+  for(let i = 0; i <= 6; i++){
+    hex.push(randomtxt[Math.floor(Math.random() * randomtxt.length)]);
+  }
+
+  return hex
+}
+console.log(randomHexNumberGenerator())
