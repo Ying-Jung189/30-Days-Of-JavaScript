@@ -216,5 +216,75 @@
 // console.log(randomHexNumberGenerator());
 //level3
 //1
-const wordCount = prompt("請輸入id字數:");
-const idNum = prompt("請輸入id數量:");
+function userIdGeneratedByUser() {
+  const wordCount = Number(prompt("請輸入每個 ID 的字元數："));
+  const idNum = Number(prompt("請輸入要產生的 ID 數量："));
+
+  // 檢查輸入是否有效
+  if (isNaN(wordCount) || isNaN(idNum) || wordCount <= 0 || idNum <= 0) {
+    alert("請輸入有效的數字！");
+    return;
+  }
+
+  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let result = "";
+
+  // 產生多個 ID
+  for (let i = 0; i < idNum; i++) {
+    let id = "";
+    for (let j = 0; j < wordCount; j++) {
+      const randomChar = chars[Math.floor(Math.random() * chars.length)];
+      id += randomChar;
+    }
+    result += id + "\n";
+  }
+
+  console.log(result);
+  return result;
+}
+
+// userIdGeneratedByUser();
+
+//2
+function rgbColorGenerator(){
+    const rgbArray = [];
+    for(let i = 0; i <= 2; i++){
+        let num = Math.floor(Math.random()* 256);
+        rgbArray.push(num)
+    }
+    console.log(`rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`);
+}
+rgbColorGenerator();
+
+//gpt寫法
+// function rgbColorGenerator() {
+//   const rgbArray = Array.from({ length: 3 }, () => Math.floor(Math.random() * 256));
+//   const [r, g, b] = rgbArray;
+//   const rgbString = `rgb(${r}, ${g}, ${b})`;
+//   console.log(rgbString);
+//   return rgbString;
+// }
+
+// rgbColorGenerator();
+
+//5
+function convertHexaToRgb(hex) {
+  // 移除前面的 #
+  if (hex[0] === '#') hex = hex.slice(1);
+
+  // 將 Hex 分成三組
+  const rHex = hex.slice(0, 2);
+  const gHex = hex.slice(2, 4);
+  const bHex = hex.slice(4, 6);
+
+  // 轉成十進位
+  const r = parseInt(rHex, 16);
+  const g = parseInt(gHex, 16);
+  const b = parseInt(bHex, 16);
+
+  console.log(`rgb(${r}, ${g}, ${b})`);
+  return [r, g, b];
+}
+
+convertHexaToRgb('#DBBA75'); 
+
