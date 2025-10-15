@@ -226,7 +226,8 @@ function userIdGeneratedByUser() {
     return;
   }
 
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  const chars =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
   let result = "";
 
   // 產生多個 ID
@@ -246,45 +247,120 @@ function userIdGeneratedByUser() {
 // userIdGeneratedByUser();
 
 //2
-function rgbColorGenerator(){
-    const rgbArray = [];
-    for(let i = 0; i <= 2; i++){
-        let num = Math.floor(Math.random()* 256);
-        rgbArray.push(num)
-    }
-    console.log(`rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`);
-}
-rgbColorGenerator();
+// function rgbColorGenerator() {
+//   const rgbArray = [];
+//   for (let i = 0; i <= 2; i++) {
+//     let num = Math.floor(Math.random() * 256);
+//     rgbArray.push(num);
+//   }
+//   console.log(`rgb(${rgbArray[0]}, ${rgbArray[1]}, ${rgbArray[2]})`);
+// }
+// rgbColorGenerator();
 
 //gpt寫法
-// function rgbColorGenerator() {
-//   const rgbArray = Array.from({ length: 3 }, () => Math.floor(Math.random() * 256));
-//   const [r, g, b] = rgbArray;
-//   const rgbString = `rgb(${r}, ${g}, ${b})`;
-//   console.log(rgbString);
-//   return rgbString;
-// }
+function rgbColorGenerator() {
+  const rgbArray = Array.from({ length: 3 }, () =>
+    Math.floor(Math.random() * 256)
+  );
+  const [r, g, b] = rgbArray;
+  const rgbString = `rgb(${r}, ${g}, ${b})`;
+  console.log(rgbString);
+  return rgbString;
+}
 
 // rgbColorGenerator();
 
 //5
-function convertHexaToRgb(hex) {
-  // 移除前面的 #
-  if (hex[0] === '#') hex = hex.slice(1);
+// function convertHexaToRgb(hex) {
+//   // 移除前面的 #
+//   if (hex[0] === '#') hex = hex.slice(1);
 
-  // 將 Hex 分成三組
-  const rHex = hex.slice(0, 2);
-  const gHex = hex.slice(2, 4);
-  const bHex = hex.slice(4, 6);
+//   // 將 Hex 分成三組
+//   const rHex = hex.slice(0, 2);
+//   const gHex = hex.slice(2, 4);
+//   const bHex = hex.slice(4, 6);
 
-  // 轉成十進位
-  const r = parseInt(rHex, 16);
-  const g = parseInt(gHex, 16);
-  const b = parseInt(bHex, 16);
+//   // 轉成十進位
+//   const r = parseInt(rHex, 16);
+//   const g = parseInt(gHex, 16);
+//   const b = parseInt(bHex, 16);
 
-  console.log(`rgb(${r}, ${g}, ${b})`);
-  return [r, g, b];
+//   console.log(`rgb(${r}, ${g}, ${b})`);
+//   return [r, g, b];
+// }
+
+// convertHexaToRgb("#0a731d");
+
+//7
+function generateColors(type, num) { 
+  const hexChars = "0123456789ABCDEF";
+  const colorList = [];
+
+  for (let i = 0; i < num; i++) {
+    let colorCode = "";
+
+    if (type === "hexa") {
+      colorCode = "#";
+      for (let j = 0; j < 6; j++) {
+        colorCode += hexChars[Math.floor(Math.random() * hexChars.length)];
+      }
+    } else if (type === "rgb") {
+      const [r, g, b] = Array.from({ length: 3 }, () => Math.floor(Math.random() * 256));
+      colorCode = `rgb(${r}, ${g}, ${b})`;
+    }
+
+    colorList.push(colorCode);
+  }
+
+  return num === 1 ? colorList[0] : colorList;
 }
 
-convertHexaToRgb('#DBBA75'); 
+// 範例測試
+console.log(generateColors("hexa", 3)); 
+console.log(generateColors("hexa", 1)); 
+console.log(generateColors("rgb", 3)); 
+console.log(generateColors("rgb", 1)); 
+
+//9
+function factorial(num){
+  let factorial = 1;
+  for(let i = 1; i < num + 1; i++){
+    factorial *= i;
+  }
+  return factorial
+}
+
+function factorial2(n) {
+  if (n === 0 || n === 1) return 1;
+  return n * factorial(n - 1);
+}
+
+
+console.log(factorial(5))
+
+//14
+function modifyArray(a){
+  if (Array.isArray(a)) {
+    return a[4] !== undefined ? a[4] : 'Not Found';
+  } else {
+    return 'is not an array';
+  }
+}
+
+console.log(modifyArray([1,2,3,4,5,7])); 
+console.log(modifyArray([1,2]));
+console.log(modifyArray("hello"));  
+
+//18
+function isValidVariable(name) {
+  const pattern = /^[a-zA-Z_$][a-zA-Z0-9_$]*$/;
+  //字串開頭必須是a-z和$ _，後面可以有英數字和$ _
+  return pattern.test(name);
+}
+
+console.log(isValidVariable('first_name')); // true
+console.log(isValidVariable('first-name')); // false
+console.log(isValidVariable('1first'));     // false
+console.log(isValidVariable('$total'));     // true
+console.log(isValidVariable('return'));     // true (但實際上是保留字)
 
