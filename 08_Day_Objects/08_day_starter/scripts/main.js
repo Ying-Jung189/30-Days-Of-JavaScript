@@ -222,57 +222,133 @@ const products = [
 //2
 //a
 function formatDate(date) {
-  let month = date.getMonth() + 1; // getMonth() 從 0 開始
-  let day = date.getDate();
-  const year = date.getFullYear();
+  const now = new Date();
 
-  let hours = date.getHours();
-  const minutes = date.getMinutes();
+  const dateFormatter = new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+  });
+  const timeFormatter = new Intl.DateTimeFormat("en-US", {
+    hour: "numeric",
+    minute: "2-digit",
+    hour12: true,
+  });
 
-  const ampm = hours >= 12 ? "PM" : "AM";
-  hours = hours % 12;
-  if (hours === 0) hours = 12;
-
-  // 補零
-  month = month < 10 ? "0" + month : month;
-  day = day < 10 ? "0" + day : day;
-  const minStr = minutes < 10 ? "0" + minutes : minutes;
-
-  return `${month}/${day}/${year} ${hours}:${minStr} ${ampm}`;
+  const formatted = `${dateFormatter.format(now)} ${timeFormatter.format(now)}`;
+  return formatted;
 }
 
-function randomUserId(){
- const chars =
-    "abcdefghijklmnopqrstuvwxyz0123456789";
-        let id = '';
-for(let i = 0; i < 6; i ++){
-    const randomChar = chars[Math.floor(Math.random() * chars.length)];
-    id += randomChar;
+function randomUserId() {
+  const chars = "abcdefghijklmnopqrstuvwxyz0123456789";
+  // let id = "";
+  // for (let i = 0; i < 6; i++) {
+  //   const randomChar = chars[Math.floor(Math.random() * chars.length)];
+  //   id += randomChar;
+  // }
+  return Array.from(
+    { length: 6 },
+    () => chars[Math.floor(Math.random() * chars.length)]
+  ).join("");
 }
-
-  return id;
-};
 
 function signUp() {
   //輸入name, email, password
-  //   const username = prompt("請輸入使用者名稱：");
+  const username = prompt("請輸入使用者名稱：");
   const email = prompt("請輸入email：");
-  //   const password = prompt("請輸入密碼：");
-  //判定是否有相同email->使用filter?
-  const emailArray = users.map((data) => data.email);
-  const existed = emailArray.includes(email);
+  const password = prompt("請輸入密碼：");
+
+  // 檢查是否已註冊（用 some() 更語意化）
+  const existed = users.some((user) => user.email === email);
   if (existed) {
     //有的話跳alert
     return "已經註冊";
   } else {
     //沒有的話新增時間、isloggedin、id
     const now = new Date();
-    const formattedTime = formatDate(now);
+    const formattedTime = formatDate();
     const id = randomUserId();
-    console.log(id)
+    users.push({
+      _id: id,
+      username: username,
+      email: email,
+      password: password,
+      createdAt: formattedTime,
+      isLoggedIn: true,
+    });
 
-
-    return "可以註冊";
+    return users;
   }
 }
-console.log(signUp());
+
+function signIn() {
+  const email = prompt("請輸入email：");
+  //比對是否符合現有資料
+  const user = users.find((user) => user.email === email);
+  if (!user) {
+    //比對是否符合對應資料
+    return "尚未註冊";
+  }
+  const password = prompt("請輸入密碼：");
+  if (password === user.password) {
+    return `登入成功，歡迎${user.username}`;
+  } else {
+    return "密碼錯誤，請重新輸入密碼";
+  }
+  //否->返回註冊
+  //是->抓使用者名字
+}
+// console.log(signIn())
+
+//3
+//a
+function rateProduct() {
+  const email = prompt("請輸入 email：");
+  const user = users.find((u) => u.email === email);
+  if (!user) return "尚未註冊，請先註冊帳號";
+
+  const productName = prompt("請輸入產品名稱：");
+  const product = products.find((p) => p.name === productName);
+  if (!product) return "查無該產品";
+
+  let rate = Number(prompt("請輸入評分 (1~5)："));
+  if (isNaN(rate) || rate < 1 || rate > 5) return "評分需為 1~5 的數字";
+
+  const existingRating = product.ratings.find((r) => r.userId === user._id);
+  //find回傳符合元素
+  if (existingRating) {
+    existingRating.rate = rate; // 更新評分
+  } else {
+    product.ratings.push({ userId: user._id, rate });
+  }
+
+  const avgRating =
+    product.ratings.reduce((sum, r) => sum + r.rate, 0) /
+    product.ratings.length;
+
+  return `您對 ${
+    product.name
+  } 的評分 ${rate} 分已成功紀錄。平均評分：${avgRating.toFixed(2)}`;
+  //toFixed(2)將數字四捨五入到小數點後 2 位
+}
+
+// console.log(rateProduct())
+//4
+function likeProduct() {
+  const email = prompt("請輸入 email：");
+  const user = users.find((u) => u.email === email);
+  if (!user) return "尚未註冊，請先註冊帳號";
+
+  const productName = prompt("請輸入喜歡/取消喜歡的產品名稱：");
+  const product = products.find((p) => p.name === productName);
+  if (!product) return "查無該產品";
+  const existingLiking = product.likes.includes((r) => r.userId === user._id);
+  //includes回傳布林
+  if (existingLiking) {
+    product.likes = product.likes.filter((r) => r.userId !== user._id);
+  } else {
+    product.likes.push(user._id);
+  }
+  return product;
+}
+console.log(likeProduct());
