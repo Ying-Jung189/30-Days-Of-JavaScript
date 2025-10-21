@@ -32,3 +32,49 @@ console.log(char6Countries);
 //15
 const priceList = products.filter(p => p.price !== '' && p.price !== ' ');
 console.log(priceList)
+
+//16
+function getStringLists(arr){
+ const stringArr =  arr.filter(item => typeof item === "string");
+ return stringArr
+}
+console.log(getStringLists([5, 2, 'ggg', 'rgrgrgr']));
+
+//17
+const numberArr = [1, 2, 3, 5, 6];
+const sum = numberArr.reduce((acc, cur) => acc + cur, 0)
+console.log(sum)
+
+//18
+const countriesAdd = countriesList.reduce((acc, cur, index) => {
+  if (index === countriesList.length - 1) {
+    return `${acc}, and ${cur}`;
+  } else {
+    return `${acc}, ${cur}`;
+  }
+});
+
+console.log(`${countriesAdd} are north European countries.`);
+
+//24
+const result = countriesList.findIndex((name) => name.length === 6)
+console.log(result)
+
+//26
+const result2 = countriesList.findIndex((name) => name === 'Russia')
+console.log(result2)
+
+//level2
+//1
+const productsList = [
+  { product: 'a', price: 50, amount: 4 },
+  { product: 'b', price: 60, amount: 6 },
+  { product: 'c', price: 70, amount: 4 },
+  { product: 'd', price: 40, amount: 7 },
+  { product: 'e', price: 35, amount: 2 },
+  { product: 'f', price: 45, amount: 9 },
+]
+const totalPrice = productsList.map(p => p.price*p.amount).reduce((acc, cur) => acc + cur, 0);
+console.log(totalPrice);
+//更簡短用法
+// const totalPrice = productsList.reduce((acc, p) => acc + p.price * p.amount, 0);
